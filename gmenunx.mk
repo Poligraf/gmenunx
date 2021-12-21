@@ -10,7 +10,8 @@ SDL_CFLAGS  ?= $(shell $(SYSROOT)/usr/bin/sdl-config --cflags)
 SDL_LIBS    ?= $(shell $(SYSROOT)/usr/bin/sdl-config --libs)
 
 CFLAGS += $(SDL_CFLAGS)
-CFLAGS += -DPLATFORM=\"$(PLATFORM)\" -D__BUILDTIME__="$(BUILDTIME)"
+CFLAGS += -DPLATFORM=\"$(PLATFORM)\" -D__BUILDTIME__="$(BUILDTIME)" 
+CFLAGS += -Isrc -Isrc/libopk -Isrc/platform
 
 
 LDFLAGS += -Wl,-Bdynamic -lz $(SDL_LIBS) -lSDL_image -lSDL_ttf
