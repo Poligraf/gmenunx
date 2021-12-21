@@ -10,12 +10,8 @@ SDL_CFLAGS  ?= $(shell $(SYSROOT)/usr/bin/sdl-config --cflags)
 SDL_LIBS    ?= $(shell $(SYSROOT)/usr/bin/sdl-config --libs)
 
 CFLAGS += $(SDL_CFLAGS)
-CFLAGS += -DPLATFORM=\"$(PLATFORM)\" -D__BUILDTIME__="$(BUILDTIME)" -DLOG_LEVEL=4
-CFLAGS += -Wundef -Wno-deprecated -Wno-unknown-pragmas -Wno-format -Wno-narrowing
-CFLAGS += -std=c++11
-CFLAGS += -fdata-sections -ffunction-sections -fno-exceptions -fno-math-errno -fno-threadsafe-statics
-CFLAGS += -Isrc -Isrc/libopk -Isrc/platform
-CFLAGS += -D_GLIBCXX_USE_CXX11_ABI=0
+CFLAGS += -DPLATFORM=\"$(PLATFORM)\" -D__BUILDTIME__="$(BUILDTIME)"
+
 
 LDFLAGS += -Wl,-Bdynamic -lz $(SDL_LIBS) -lSDL_image -lSDL_ttf
 LDFLAGS += -Wl,--as-needed -Wl,--gc-sections
@@ -30,10 +26,10 @@ OBJS += $(patsubst src/libopk/%.c, $(OBJDIR)/src/libopk/%.o, src/libopk/libopk.c
 
 # File types rules
 $(OBJDIR)/src/libopk/%.o: src/libopk/%.c
-	$(CC) -o $@ -c $< -lz -std=c11 -D_POSIX_C_SOURCE=200809L -Wall -Wextra -fPIC -fvisibility=hidden -DUSE_GZIP=1
+	$(CC) -ofast $@ -c $< -lz -std=c11 -D_POSIX_C_SOURCE=200809L -Wall -Wextra -fPIC -fvisibility=hidden -DUSE_GZIP=1
 
 $(OBJDIR)/src/%.o: src/%.cpp src/%.h
-	$(CXX) $(CFLAGS) -o $@ -c $<
+	$(CXX) $(CFLAGS) -ofast $@ -c $<
 
 # -include $(patsubst src/%.cpp, $(OBJDIR)/src/%.d, $(SOURCES))
 
